@@ -21,7 +21,7 @@ mongoose
 const port = process.env.PORT || 3000;
 
 app.use(
-  '/api-docs',
+  '/',
   swaggerUi.serve, 
   swaggerUi.setup(swaggerDocument)
 );
