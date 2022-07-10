@@ -24,7 +24,6 @@ app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 var whitelist = ['https://task-manager-rest-apis.herokuapp.com', 'http://example2.com']
@@ -93,8 +92,8 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.use('/api/v1/tasks', taskRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/tasks', cors(corsOptions), taskRouter);
+app.use('/api/v1/users', cors(corsOptions), userRouter);
 
 app.use(
   '/',
