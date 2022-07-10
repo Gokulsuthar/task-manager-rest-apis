@@ -10,7 +10,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
-
 const AppError = require('./src/controllers/appError');
 const globalErrorHandler = require('./src/controllers/errorController');
 const taskRouter = require('./src/routes/task');
@@ -43,7 +42,9 @@ app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
 
 // Set security HTTP headers
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
