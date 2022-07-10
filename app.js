@@ -21,6 +21,13 @@ const swaggerDocument = require('./swagger.json');
 // Start express app
 const app = express();
 
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
+
+
 app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
@@ -29,10 +36,10 @@ app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 // app.use(cors({
-//   origin: 'https://task-manager-rest-apis.herokuapp.com'
+//   origin: 'https://www.natours.com'
 // }))
 
-// app.options('*', cors());
+app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
 
 // Set security HTTP headers
@@ -85,12 +92,6 @@ app.use((req, res, next) => {
   // console.log(req.cookies);
   next();
 });
-
-app.use(
-  '/',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
 
 // 3) ROUTES
 app.use('/api/v1/tasks', taskRouter);
