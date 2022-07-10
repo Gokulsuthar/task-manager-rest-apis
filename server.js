@@ -7,13 +7,13 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './src/config/.env' });
 const app = require('./app');
 
-const DB = process.env.MONGODB_LOCAL
+const DB = `${process.env.MONGODB_LOCAL}`
 
 mongoose
-  .connect(DB)
+  .connect(DB,  {useNewUrlParser: true})
   .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
