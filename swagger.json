@@ -1,0 +1,630 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Task Manager Apis",
+    "description": "Task Manager REST Apis developed by Gokul Suthar",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "User",
+      "description": "API for users in the system"
+    }, 
+    {
+      "name": "Admin",
+      "description": "API for admin's access in the system"
+    },
+    {
+      "name": "Task",
+      "description": "API for user's tasks in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "scheme": "bearer",
+      "bearerFormat": "JWT",
+      "name": "authorization"
+    }
+  },
+
+  "security": [
+    {
+       "JWT": []
+    }
+ ],
+
+  "definitions": {
+    "loginSchema": {
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "user@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "useruser"
+        }
+      }
+    },
+    "signupSchema": {
+      "required": ["name", "email", "password", "passwordConfirm"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "user name"
+        },
+        "email": {
+          "type": "string",
+          "example": "user email"
+        },
+        "password": {
+          "type": "string",
+          "example": "user profile password"
+        },
+        "passwordConfirm": {
+          "type": "string",
+          "example": "confirm user profile password"
+        }
+      }
+    },
+    
+    "userUpdateSchema": {
+      "required": ["name", "email"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "new user name"
+        }
+      }
+    },
+
+    "forgetPasswordSchema": {
+      "required": ["email"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "user@gmail.com"
+        }
+      }
+    },
+
+    "resetPasswordSchema": {
+      "required": ["token"],
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "new password"
+        },
+        "passwordConfirm": {
+          "type": "string",
+          "example": "confirm new password"
+        }
+      }
+    },
+
+    "updateMyPasswordSchema": {
+      "required": ["passwordCurrent", "password", "passwordConfirm"],
+      "properties": {
+        "passwordCurrent": {
+          "type": "string",
+          "example": "current password"
+        },
+        "password": {
+          "type": "string",
+          "example": "new password"
+        },
+        "passwordConfirm": {
+          "type": "string",
+          "example": "confirm new password"
+        }
+      }
+    }, 
+
+    "updateMeSchema": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "current password"
+        },
+        "name": {
+          "type": "string",
+          "example": "new password"
+        }
+      }
+    },
+
+    "taskSchema": {
+      "required": ["description"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "This is my task!"
+        },
+        "completed": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    },
+
+    "updateTaskSchema": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "New description!"
+        },
+        "completed": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    }
+  },
+
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["User"],
+        "description": "User register route",
+        "security": [],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User who wants to create an account!",
+            "schema": {
+              "$ref": "#/definitions/signupSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User has been created successfully!"
+          }
+        }
+      }
+    },
+
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "description": "User login route",
+        "security": [],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User who wants to login!",
+            "schema": {
+              "$ref": "#/definitions/loginSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User has been successfully logged in!"
+          }
+        }
+      }
+    },
+
+    "/users/logout": {
+      "get": {
+        "tags": ["User"],
+        "description": "User login route",
+        "security": [],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User has been successfully logged in!"
+          }
+        }
+      }
+    },
+
+    "/users/me": {
+      "get": {
+        "tags": ["User"],
+        "description": "User profile route",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User profile data has been fetch successfully!"
+          }
+        }
+      }
+    },
+
+    "/users/updateMe": {
+      "patch": {
+        "tags": ["User"],
+        "description": "User profile data update route",
+        "consumes" : ["multipart/form-data", "application/json"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Users who wants to update their profile data including profile-img!",
+            "schema": {
+              "$ref": "#/definitions/updateMeSchema"
+            }
+          },
+          {
+            "name": "photo",
+            "in": "formData",
+            "type": "file"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Profile data has been updated!"
+          }, 
+          "400": {
+            "description": "This route is not for password updates. Please use /updateMyPassword!"
+          }, 
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/users/deleteMe": {
+      "delete": {
+        "tags": ["User"],
+        "description": "User profile/account delete route",
+        "responses": {
+          "200": {
+            "description": "Profile/account has been deleted!"
+          },
+          "204": {
+            "description": "No content! Account has been deleted sucessfully!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/users/forgotPassword": {
+      "post": {
+        "tags": ["User"],
+        "description": "User forgor password route",
+        "security": [],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User who has forgotten his password!",
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User profile data has been updated successfully"
+          }
+        }
+      }
+    },
+
+    "/users/resetPassword/{token}": {
+      "patch": {
+        "tags": ["User"],
+        "description": "User reset password route",
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "description": "User who wants to login!"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/definitions/resetPasswordSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User profile data has been inactivated successfully!"
+          },
+
+          "400": {
+            "description": "Token is invalid or has expired"
+          }
+        }
+      }
+    },
+
+    "/users/updateMyPassword": {
+      "patch": {
+        "tags": ["User"],
+        "description": "User password update/change route",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Users who wants to update their password!",
+            "schema": {
+              "$ref": "#/definitions/updateMyPasswordSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile data has been deleted successfully!"
+          }
+        }
+      }
+    },
+
+    "/users/": {
+      "get": {
+        "tags": ["Admin"],
+        "description": "Admin route to get list of all users!",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "All users list has been fetch successfully from the database!"
+          }
+        }
+      },
+
+      "post": {
+        "tags": ["Admin"],
+        "description": "Admin route to create new user!",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User has been created successfully!"
+          }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "get": {
+        "tags": ["Admin"],
+        "description": "Admin route to get user data from it's {id}!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "User whose data you want to read!"
+          }
+        ], 
+        "responses": {
+          "200": {
+            "description": "Sucess!"
+          }
+        }
+      },
+
+      "patch": {
+        "tags": ["Admin"],
+        "description": "User profile data update route",
+        "consumes" : ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "User who wants to login!"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Users who wants to update their profile data including profile-img!",
+            "schema": {
+              "$ref": "#/definitions/updateMeSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success!"
+          }, 
+          "404": {
+            "description": "No document found with that ID!"
+          }, 
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/tasks/newTask": {
+      "post": {
+        "tags": ["Task"],
+        "description": "Task route to creata a task!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "task",
+            "in": "body",
+            "description": "New task!",
+            "schema": {
+              "$ref": "#/definitions/taskSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task created successfully!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/tasks/readAllTasks": {
+      "get": {
+        "tags": ["Task"],
+        "description": "Task route to creata a task!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "limit task Documents"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "fields in task Documents"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "sorting task Documents"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "description": "active task Documents"
+          },
+          {
+            "name": "completed",
+            "in": "query",
+            "description": "completed task Documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All Tasks fetch successfully!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/tasks/{readTaskById}": {
+      "get": {
+        "tags": ["Task"],
+        "description": "Task route to read a task by is {id}!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "readTaskById",
+            "in": "path",
+            "description": "Read task by Id!",
+            "schema": {
+              "$ref": "#/definitions/taskSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task created successfully!"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/tasks/{updateTaskById}": {
+      "patch": {
+        "tags": ["Task"],
+        "description": "Task route to update a task by is {id}!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "updateTaskById",
+            "in": "path",
+            "description": "Update task by Id!"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "Update task by Id!",
+            "schema": {
+              "$ref": "#/definitions/updateTaskSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task updated successfully!"
+          },
+          "404": {
+            "description": "Task not found!"
+
+          },
+          "403": {
+            "description": "Invalid operation!"
+
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    },
+
+    "/tasks/{deleteTaskById}": {
+      "delete": {
+        "tags": ["Task"],
+        "description": "Task route to delete a task by is {id}!",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "deleteTaskById",
+            "in": "path",
+            "description": "delete task by Id!"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Task deleted successfully!"
+          },
+          "404": {
+            "description": "Task not found!"
+
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      }
+    }
+  }
+}
