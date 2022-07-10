@@ -14,8 +14,6 @@ const AppError = require('./src/controllers/appError');
 const globalErrorHandler = require('./src/controllers/errorController');
 const taskRouter = require('./src/routes/task');
 const userRouter = require('./src/routes/user');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
 
 // Start express app
 const app = express();
@@ -35,9 +33,7 @@ app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
 
 // Set security HTTP headers
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
+app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -86,12 +82,6 @@ app.use((req, res, next) => {
   // console.log(req.cookies);
   next();
 });
-
-app.use(
-  '/api-docs',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
 
 // 3) ROUTES
 app.use('/api/v1/tasks', taskRouter);

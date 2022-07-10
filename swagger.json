@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:3000",
+  "host": "task-manager-rest-apis.herokuapp.com/",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -25,7 +25,7 @@
       "description": "API for user's tasks in the system"
     }
   ],
-  "schemes": ["http", "https"],
+  "schemes": ["https"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
 
