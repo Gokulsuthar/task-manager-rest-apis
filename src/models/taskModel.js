@@ -29,7 +29,7 @@ taskSchema.methods.toJSON = function() {
 
     // delete userObject.createdAt
     delete userObject.updatedAt
-    // delete userObject.__v
+    delete userObject.__v
 
     return userObject
 }
@@ -41,6 +41,6 @@ taskSchema.virtual('remainingTimeToComplete').get(function() {
     return remainingTimeToComplete
 })
 
-const Task = mongoose.model('Task', taskSchema).select('-__v')
+const Task = mongoose.model('Task', taskSchema)
 
 module.exports = Task
