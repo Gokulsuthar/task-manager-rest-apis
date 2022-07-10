@@ -25,14 +25,11 @@ app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://task-manager-rest-apis.herokuapp.com"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 app.use(cors());
+// Access-Control-Allow-Origin *
+// api.natours.com, front-end natours.com
 // app.use(cors({
-//   origin: 'https://task-manager-rest-apis.herokuapp.com/api-docs/'
+//   origin: 'https://task-manager-rest-apis.herokuapp.com'
 // }))
 
 app.options('*', cors());

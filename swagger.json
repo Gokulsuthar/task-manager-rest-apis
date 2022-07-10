@@ -25,7 +25,7 @@
       "description": "API for user's tasks in the system"
     }
   ],
-  "schemes": ["https"],
+  "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
 
