@@ -20,13 +20,6 @@ const swaggerDocument = require('./swagger.json');
 // Start express app
 const app = express();
 
-app.use(
-  '/api-docs',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
-
-
 app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
@@ -93,6 +86,12 @@ app.use((req, res, next) => {
   // console.log(req.cookies);
   next();
 });
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 // 3) ROUTES
 app.use('/api/v1/tasks', taskRouter);
