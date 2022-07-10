@@ -27,9 +27,16 @@ app.enable('trust proxy');
 app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
-app.use(cors({
-  origin: 'https://task-manager-rest-apis.herokuapp.com/'
-}))
+var whitelist = ['https://task-manager-rest-apis.herokuapp.com', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 // app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
