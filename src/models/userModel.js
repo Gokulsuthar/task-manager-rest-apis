@@ -63,7 +63,7 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-taskSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function() {
   const task = this
   const taskObject = task.toObject()
 
