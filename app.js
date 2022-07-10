@@ -25,10 +25,15 @@ app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://task-manager-rest-apis.herokuapp.com"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(cors());
-app.use(cors({
-  origin: 'https://task-manager-rest-apis.herokuapp.com/api-docs/'
-}))
+// app.use(cors({
+//   origin: 'https://task-manager-rest-apis.herokuapp.com/api-docs/'
+// }))
 
 app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
