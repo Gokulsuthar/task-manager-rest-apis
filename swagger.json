@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "https://task-manager-rest-apis.herokuapp.com/api/v1",
+  "host": "task-manager-rest-apis.herokuapp.com/api/v1",
   "basePath": "/",
   "tags": [
     {
