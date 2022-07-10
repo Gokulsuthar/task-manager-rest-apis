@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
 const dotenv = require('dotenv');
 
 process.on('uncaughtException', err => {
@@ -19,12 +17,6 @@ mongoose
   .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
-
-app.use(
-  '/',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
 
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);

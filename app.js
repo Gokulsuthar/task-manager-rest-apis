@@ -11,6 +11,8 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const AppError = require('./src/controllers/appError');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const globalErrorHandler = require('./src/controllers/errorController');
 const taskRouter = require('./src/routes/task');
 const userRouter = require('./src/routes/user');
@@ -82,6 +84,12 @@ app.use((req, res, next) => {
   // console.log(req.cookies);
   next();
 });
+
+app.use(
+  '/',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 // 3) ROUTES
 app.use('/api/v1/tasks', taskRouter);
