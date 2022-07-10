@@ -85,15 +85,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// 3) ROUTES
+app.use('/api/v1/tasks', taskRouter);
+app.use('/api/v1/users', userRouter);
+
 app.use(
   '/',
   swaggerUi.serve, 
   swaggerUi.setup(swaggerDocument)
 );
-
-// 3) ROUTES
-app.use('/api/v1/tasks', taskRouter);
-app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
