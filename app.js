@@ -27,11 +27,11 @@ app.enable('trust proxy');
 app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
-// app.use(cors({
-//   origin: 'https://www.natours.com'
-// }))
+app.use(cors({
+  origin: 'https://task-manager-rest-apis.herokuapp.com/'
+}))
 
-app.options('*', cors());
+// app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors());
 
 // Set security HTTP headers
