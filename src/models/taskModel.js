@@ -41,6 +41,6 @@ taskSchema.virtual('remainingTimeToComplete').get(function() {
     return remainingTimeToComplete
 })
 
-const Task = mongoose.model('Task', taskSchema).select('__v')
+const Task = mongoose.model('Task', taskSchema).select('-__v')
 
 module.exports = Task
