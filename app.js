@@ -22,23 +22,19 @@ const app = express();
 
 app.enable('trust proxy');
 
-// 1) GLOBAL MIDDLEWARES
-// Implement CORS
-// Access-Control-Allow-Origin *
-// api.natours.com, front-end natours.com
-var whitelist = ['https://task-manager-rest-apis.herokuapp.com', 'http://example2.com']
+//cors
+var whitelist = ['https://task-manager-rest-apis.herokuapp.com']
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new AppError('Not allowed by CORS', 401))
     }
   }
 }
 
-// app.options('*', cors());
-// app.options('/api/v1/tours/:id', cors());
+app.use(cors(corsOptions));
 
 // Set security HTTP headers
 app.use(helmet());
@@ -92,8 +88,8 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.use('/api/v1/tasks', cors(corsOptions), taskRouter);
-app.use('/api/v1/users', cors(corsOptions), userRouter);
+app.use('/api/v1/tasks', taskRouter);
+app.use('/api/v1/users', userRouter);
 
 app.use(
   '/',
